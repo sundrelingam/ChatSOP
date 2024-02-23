@@ -1,0 +1,23 @@
+{% extends "base_app/base.html" %}
+
+{% block content %}
+
+<h1 class="display-4">Welcome, {{ user.username }}!</h1>
+
+{% if not plan %}
+    <p class="lead">You currently don't have a plan.</p>
+    <form method="get" action="{% url 'payments_app:plan' %}">
+        {% csrf_token %}
+        <button class="btn btn-primary btn-lg" type="submit">Purchase a Plan</button>
+    </form>
+
+{% else %}
+    <p class="lead">You have used {{ queries_used }} out of {{ max_queries }} queries for the month, and uploaded {{ files_used }} out of {{ max_files }} files for the month.</p>
+    <form method="post" action="{% url 'payments_app:deactivate' %}">
+        {% csrf_token %}
+        <button class="btn btn-danger btn-lg" type="submit">Deactivate Plan</button>
+    </form>
+
+{% endif %}
+
+{% endblock content %}

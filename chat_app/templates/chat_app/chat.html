@@ -1,0 +1,42 @@
+{% extends "base_app/base.html" %}
+
+{% block content %}
+
+    {% if plan %}
+
+    <div class="container p-3">
+        <h3>ChatSOP</h3>
+        <div class="mb-3">
+            <form method="post">
+                {% csrf_token %}
+                <label for="prompt" class="form-label"><strong>Prompt: </strong></label>
+                <textarea class="form-control" type="textarea" id="prompt" name="prompt" rows="3"></textarea>
+                <br>
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </form>
+        </div>
+        <br>
+        <div class="mb-3">
+            <h6>Response:</h6> 
+            <div class="container border overflow-auto h-50" id="response"></div>
+
+            {% if completion %}
+
+            <p>{{ completion }}</p>
+            
+            {% endif %}
+        </div>
+    </div>
+
+    {% else %}
+
+    <p>Looks like you don't have a plan!</p>
+    
+    <form action="{% url 'payments_app:plan' %}" method="get">
+        {% csrf_token %}
+        <button class="btn btn-primary" type="submit">Purchase a Plan</button>
+    </form>
+    
+    {% endif %}
+
+{% endblock content %}

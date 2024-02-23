@@ -1,0 +1,20 @@
+<header>
+    <nav>
+      
+      {% if user.is_authenticated %}
+      <!-- show log out link if user is already logged in -->
+      <a href="{% url 'uploads_app:upload' %}">Upload</a>
+      <a href="{% url 'chat_app:chat' %}">Chat</a>
+      <a href="{% url 'base_app:profile' %}">Profile</a>
+      <a href="{% url 'base_app:logout' %}">Logout</a>
+  
+      {% else %}
+  
+      <!-- show log in and sing up links otherwise   -->
+      <a href="/">Home</a>
+      <a href="{% url 'base_app:login' %}">Login</a>
+      <a href="{% url 'base_app:signup' %}">Signup</a>
+  
+      {% endif %}
+    </nav>
+  </header>

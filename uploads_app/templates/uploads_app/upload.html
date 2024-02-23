@@ -1,0 +1,48 @@
+{% extends "base_app/base.html" %}
+
+{% block content %}
+
+{% if plan %}
+<!-- List of uploaded documents -->
+{% if documents %}
+    <ul>
+    {% for document in documents %}
+        <li><a href="{{ document.docfile.url }}">{{ document.docfile.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No documents.</p>
+{% endif %}
+
+    <!-- Upload form. Note enctype attribute! -->
+    <form action="{% url 'uploads_app:upload' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>{{ form.non_field_errors }}</p>
+        <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+        <p>
+            {{ form.docfile.errors }}
+            {{ form.docfile }}
+        </p>
+        <p><input type="submit" value="Upload" /></p>
+    </form>
+
+    <!-- Create a form to update the vector store -->
+    <form action="{% url 'uploads_app:vectorstore' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p><input type="submit" value="Update Vector Store" /></p>
+    </form>
+
+{% else %}
+
+    <p> Looks like you don't have a plan! </p>
+
+    <form action="{% url 'payments_app:plan' %}" method="get">
+        {% csrf_token %}
+        <button class="btn btn-primary" type="submit">Purchase a Plan</button>
+    </form>
+    
+
+{% endif %}
+
+
+{% endblock content %}

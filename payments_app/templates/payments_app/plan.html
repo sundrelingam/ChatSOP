@@ -1,0 +1,32 @@
+{% extends "base_app/base.html" %}
+
+{% load static %}
+
+{% block scripts %}
+<script src="https://js.stripe.com/v3/"></script>
+<script src="{% static 'main.js' %}"></script>
+{% endblock scripts %}
+
+{% block content %}
+
+{% if not plan %}
+
+<p>Purchase a plan by following the link below.</p>
+
+<div class="container">
+    <button class="button is-primary" id="submitBtn">Free Trial?</button>
+</div>
+
+{% else %}
+
+<p>You currently have a plan.</p>
+
+<form method="post" action="{% url 'payments_app:deactivate' %}" method="post">
+    {% csrf_token %}
+    <!--a button that redirects the user to the deactivate_plan view-->
+    <button class="btn btn-primary" type="submit">Deactivate Plan</button>
+</form>
+
+{% endif %}
+
+{% endblock content %}
